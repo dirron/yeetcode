@@ -1,63 +1,70 @@
+import math
+
+
 class TreeNode:
     def __init__(self, x):
         self.val = x
         self.left = None
         self.right = None
-
-def should_incr_depth(count, cur_depth) -> bool:
-    return count > (2 ** (cur_depth - 1))
-
-def BFS(v: TreeNode):
-
-    output = []
     
-    S = []
-    depth = 1
-    count = 0
-    pair = []
-    to_right = True
+    def __repr__(self):
+        if self.val is not None:
+            return str(self.val)
+        else:
+            return 'None'
+        return str(self.val)
 
-    output.append([v.val])
+def BFS_zigzag(v: TreeNode):
+    if v is None:
+        return []
+
+    output = [v.val]
+    S = []
+    tree_index = 1
     S.append(v)
     
     while S:
-        prev_depth = depth
-        cur = S.pop(0)
-        adjacent = []
+        tree_index += 2
+        depth = math.floor(math.log(tree_index)) + 1
+        v = S.pop(0)
 
-        if should_incr_depth(count, depth):
-            depth += 1
-            to_right = not to_right
-        
-        print(cur.val, ' ', depth, ' ', count, ' ', to_right)
-                
-        if to_right:
-            adjacent = [cur.left, cur.right]
-        else:
-            adjacent = [cur.right, cur.left]
+        children = []
 
-        for w in adjacent:
-            if w is not None and w.val is not None:
-                pair.append(w.val)
-                w.val = None
-                S.append(w)
-            count += 1
+        if v.left is not None: # and v.left.val is not None:
+            children.append(v.left)
+        if v.right is not None: # and v.right.val is not None:
+            children.append(v.right)
         
-        if pair:
-            output.append(pair)
-            if len(pair) == 2 or (prev_depth < depth):
-                pair = []
+        if depth % 2 == 0:
+            children.reverse()
+        
+        for child in children:
+            S.append(child)
+            output.append(child.val)
     
     return output
 
+input = [1,2,None,3,None,4,None,5]
 tree = []
-for i in range(5):
+last_not_none = None
+for i, val in enumerate(input):
+    child = TreeNode(val)
     
-    tree.append(TreeNode(i + 1))
+    tree.append(child)
 
-tree[0].left = tree[1]
-tree[0].right = tree[2]
-tree[1].left = tree[3]
-tree[1].right = tree[4]
+    if i > 0:
+        parent = tree[math.floor((i - 1) / 2)]
 
-print(BFS(tree[0]))
+        if parent.val is None:
+            parent = last_not_none
+
+        if parent.left is None:
+            parent.left = child
+        else:
+            parent.right = child
+            
+    if child.val is not None:
+        last_not_none = child
+
+print('Tree = ', tree)
+print('Output = ', BFS_zigzag(tree[0]))
