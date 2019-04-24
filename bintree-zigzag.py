@@ -18,28 +18,23 @@ def BFS_zigzag(v: TreeNode):
     if v is None:
         return []
 
-    output = [[v.val],[]]
+    output = [[v.val]]
     S = []
     tree_index = 1
-    S.append(v)
-    S.append(None)
-    depth = 1
+    S.append((v, 1))
+    prev_depth = 0
     
     while S:
         tree_index += 2
-        v = S.pop(0)
+        v, depth = S.pop(0)
 
-        if v is None:
-            depth += 1
-            S.append(None)
+        if depth > prev_depth:
             output.append([])
-            
-            if S[0] is None:
-                break
-            else:
-                continue
 
         children = []
+        
+        if (v.val == -1):
+            print(-1, 'depth =', depth)
 
         if v.left is not None and v.left.val is not None:
             children.append(v.left)
@@ -47,13 +42,14 @@ def BFS_zigzag(v: TreeNode):
             children.append(v.right)
         
         for child in children:
-            S.append(child)
-        
-        print(depth)
-        if (depth + 1) % 2 == 0:
-            children.reverse()
+            S.append((child, depth + 1))
         
         for child in children:
-            output[-1].append(child.val)
+            if (depth + 1) % 2 != 0:
+                output[-1].append(child.val)
+            else:
+                output[-1].insert(0, child.val)
+        
+        prev_depth = depth
             
     return (list(filter(lambda a: a != [], output)))
