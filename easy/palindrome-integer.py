@@ -1,4 +1,4 @@
-# Problem 9
+# Problem 9: without string conversion
 class Solution:
     def isPalindrome(self, x: int) -> bool:
         if x < 0:
