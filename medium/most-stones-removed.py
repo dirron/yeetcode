@@ -3,9 +3,10 @@ import collections
 
 
 '''
+Problem #947:
 Islands are connected by having the same row or column (not by actually being next to each other).
-With that in mind, islands have 1 element that can be left behind while the rest is removed.
-Then the answer to the problem is in fact the number of stones minus the number of islands.
+With that in mind, islands have 1 essential stone that can be left behind while the rest is removed.
+Then the number of removable stones is in fact the number of stones minus the number of islands (essential stones).
 '''
 def removeStones(stones: List[List[int]]) -> int:
     def DFS(i, j):
