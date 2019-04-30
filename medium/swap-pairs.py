@@ -1,11 +1,12 @@
 from typing import List
 
-# Problem 24: Swap nodes in pairs (as part of the lesson, I've done this recursively)
+
+# Problem 24: Swap nodes in pairs (done recursively as part of recursion lesson)
 class ListNode:
     def __init__(self, x):
         self.val = x
         self.next = None
-    
+
     def __repr__(self):
         return str(self.val)
 
@@ -17,9 +18,9 @@ def swapPairs(head: ListNode) -> ListNode:
         b.next, c.next = c.next, b
         if a is not None:
             a.next = c
-        
+
     second = None
-    
+
     if head is not None:
         if head.next is not None:
             second = head.next
@@ -29,12 +30,14 @@ def swapPairs(head: ListNode) -> ListNode:
 
     return second
 
+
 def printList(node: ListNode):
     output = []
     while node is not None:
         output.append(node)
         node = node.next
     print(output)
+
 
 L = []
 for i in range(4):
