@@ -1,22 +1,22 @@
+from typing import List
+
+
 # Problem 119: Pascal's Triangle II (done recursively as part of lesson)
-def pascal_num(i: int, j: int, triangle):
-    if j == 1 or j == i:
-        triangle[i-1][j-1] = 1
-        return 1
-    elif triangle[i-1][j-1] != 0:
-        return triangle[i-1][j-1]
+def getRow(rowIndex: int) -> List[int]:
+    def pasc(cur: int, rowIndex: int, row: List[int]):
+        if cur > rowIndex:
+            return row
+        for i in reversed(range(cur)):
+            if i == 0 or i == cur-1:
+                row[i] = 1
+            else:
+                row[i] = row[i] + row[i-1]
 
-    sol = pascal_num(i - 1, j - 1, triangle) + pascal_num(i - 1, j, triangle)
-    triangle[i-1][j-1] = sol
-    return sol
+        pasc(cur+1, rowIndex, row)
 
-
-def getRow(rowIndex: int):
-    row = [[0]*i for i in range(1, rowIndex + 1)]
-    for i in range(1, rowIndex + 1):
-        row[rowIndex-1][i-1] = pascal_num(rowIndex, i, row)
-
-    return row[rowIndex-1]
+    row = [0]*rowIndex
+    pasc(0, rowIndex, row)
+    return row
 
 
-print(getRow(5))
+print(getRow(23))
