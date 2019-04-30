@@ -1,26 +1,23 @@
 # Problem 118: Pascal's Triangle (done recursively as part of lesson)
-def pascal_num(i: int, j: int, sols):
+def pascal_num(i: int, j: int, triangle):
     if j == 1 or j == i:
-        sols[(i, j)] = 1
+        triangle[i-1][j-1] = 1
         return 1
-    elif (i, j) in sols:
-        return sols[(i, j)]
+    elif triangle[i-1][j-1] != 0:
+        return triangle[i-1][j-1]
 
-    sol = pascal_num(i - 1, j - 1, sols) + pascal_num(i - 1, j, sols)
-    sols[(i, j)] = sol
+    sol = pascal_num(i - 1, j - 1, triangle) + pascal_num(i - 1, j, triangle)
+    triangle[i-1][j-1] = sol
     return sol
 
 
 def generate(numRows: int):
-    sols = {}
-
-    ans = []
+    triangle = [[0]*i for i in range(1, numRows + 1)]
     for i in range(1, numRows + 1):
-        ans.append([])
         for j in range(1, i + 1):
-            ans[-1].append(pascal_num(i, j, sols))
+            triangle[i - 1][j - 1] = pascal_num(i, j, triangle)
 
-    return ans
+    return triangle
 
 
 print(generate(5))
