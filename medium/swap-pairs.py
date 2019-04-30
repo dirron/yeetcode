@@ -12,23 +12,12 @@ class ListNode:
 
 
 def swapPairs(head: ListNode) -> ListNode:
-    def swap(a, b, c):
-        if c.next is not None and c.next.next is not None:
-            swap(c, c.next, c.next.next)
-        b.next, c.next = c.next, b
-        if a is not None:
-            a.next = c
-
-    second = None
-
-    if head is not None:
-        if head.next is not None:
-            second = head.next
-            swap(None, head, head.next)
-        else:
-            second = head
-
-    return second
+    if head and head.next:
+        tmp = head.next
+        head.next = swapPairs(tmp.next)
+        tmp.next = head
+        return tmp
+    return head
 
 
 def printList(node: ListNode):
@@ -48,5 +37,4 @@ for i in range(4):
         L[i - 1].next = new_node
 
 printList(L[0])
-swapPairs(L[0])
-printList(L[1])
+printList(swapPairs(L[0]))
