@@ -17,10 +17,9 @@ def printList(node: ListNode):
 def reverseList(head: ListNode):
     if not head or not head.next:
         return head
-    next = head.next
+    newHead = reverseList(head.next)
+    head.next.next = head
     head.next = None
-    newHead = reverseList(next)
-    next.next = head
     return newHead
 
 L = []
